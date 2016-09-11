@@ -20,20 +20,43 @@ var metric = graphite.createClient({
 var fibaro = new Fibaro(config.fibaro.hostname, config.fibaro.login, config.fibaro.password);
 
 fibaro.api.devices.list(function(err, data) {
+
+    // console.log(data);
+
+    //add temperature statistics
 	var filtered = jsonQuery('[*type=com.fibaro.temperatureSensor]', {
 		data: data
 	});
 
-
-	var entries = {};
 	filtered.value.forEach(function(device, index) {
-		console.log("Added:" + device.name + " " + device.properties.value);
         metric.put(device.name, device.properties.value);
 	});
 
+    //add licht (lux) statistics
+    var filtered = jsonQuery('[*type=com.fibaro.lightSensor]', {
+        data: data
+    });
 
-    //
-	// console.log(process._getActiveHandles());
-	// process._getActiveRequests();
-	// console.log(filtered.value);
+    filtered.value.forEach(function(device, index) {
+        metric.put(device.name, device.properties.value);
+    });
+
+    //add light (lux) statistics
+    var filtered = jsonQuery('[*type=com.fibaro.humiditySensor]', {
+        data: data
+    });
+
+    filtered.value.forEach(function(device, index) {
+        metric.put(device.name, device.properties.value);
+    });
+
+    //add uv statistics
+    var filtered = jsonQuery('[*name~/.uv$/i]', {
+        data: data,
+        allowRegexp: true
+    });
+    filtered.value.forEach(function(device, index) {
+        metric.put(device.name, device.properties.value);
+    });
+
 });
