@@ -16,7 +16,7 @@
         "request": "*",
         "async":   "*",
         "json-query": "*",
-        "graphite": "*"
+        "graphite-udp": "*"
     },
     "engines": [
         "node"
