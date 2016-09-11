@@ -14,7 +14,9 @@
     "license": "MIT",
     "dependencies" : {
         "request": "*",
-        "async":   "*"
+        "async":   "*",
+        "json-query": "*",
+        "graphite": "*"
     },
     "engines": [
         "node"
