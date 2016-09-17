@@ -61,8 +61,8 @@ fibaro.api.devices.list(function(err, data) {
 
     data.forEach(function(device, index) {
         if(device.interfaces != undefined && device.interfaces.indexOf("energy") != -1) {
-            metric.put(device.name + "energy_current", device.properties.power);
-            metric.put(device.name + "energy_total", device.properties.energy);
+            metric.put(device.name + ".energy.current", device.properties.power);
+            metric.put(device.name + ".energy.total", device.properties.energy);
         }
     });
 
