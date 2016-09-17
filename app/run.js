@@ -61,8 +61,12 @@ fibaro.api.devices.list(function(err, data) {
 
     data.forEach(function(device, index) {
         if(device.interfaces != undefined && device.interfaces.indexOf("energy") != -1) {
-            metric.put(device.name + ".energy.current", device.properties.power);
-            metric.put(device.name + ".energy.total", device.properties.energy);
+            //lame way to skip unassigned metered devices.
+            //@todo check if we can use hidden or disabled status.
+            if(device.name.length != 5) {
+                metric.put(device.name + ".energy.current", device.properties.power);
+                metric.put(device.name + ".energy.total", device.properties.energy);
+            }
         }
     });
 
